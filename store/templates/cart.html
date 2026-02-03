@@ -1,4 +1,46 @@
 {% extends "landingpage.html" %}
 {% block content %}
-<h1>Cart Page</h1>
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">🛒 My Cart</h2>
+
+    {% if cart_items %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td><strong>{{ item.product.name }}</strong></td>
+                    <td>₹{{ item.product.price }}</td>
+                    <td>{{ item.qty }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Grand Total -->
+    <div class="text-end mt-3">
+        <h4>Grand Total: <span class="text-success">₹{{ grand_total }}</span></h4>
+        <a href="/" class="btn btn-secondary mt-2">Continue Shopping</a>
+        <a href="#" class="btn btn-success mt-2">Checkout</a>
+    </div>
+
+    {% else %}
+        <div class="alert alert-warning text-center">
+            Your cart is empty 😢
+        </div>
+        <div class="text-center">
+            <a href="/" class="btn btn-primary">Go Shopping</a>
+        </div>
+    {% endif %}
+</div>
+
 {% endblock %}

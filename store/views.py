@@ -30,19 +30,37 @@ def product_details(req, key):
 def addtocart(req):
     proid=req.GET['proid']
     qty=req.GET['qty']
-    print(proid, qty)
-    response=HttpResponse("Item added to cart successfully")
+    print('product id:',proid)
+    print('Qtt:',qty)
+    data =req.COOKIES.get('pid')
+    if data:
+        data=data+","+proid+":"+qty
+    else:
+        data=proid+":"+qty
+    response=render(req,'cart.html',{'pid':data})
+    response.set_cookie('pid',data)
     return response
 
 
+
 def shopping_cart(req):
-    page=loader.get_template('cart.html')
-    db=req.COOKIES.get('pid')
-    if db!=None:
-        items =db.split(',')
-        values={}
-        print(items)
-        response=page.render({},req)
-    else:
-        response=page.render({},req)
+    page = loader.get_template('cart.html')
+    cookie_data = req.COOKIES.get('pid')
+
+    cart_items = []
+    grand_total = 0
+
+    if cookie_data:
+        items = cookie_data.split(',')
+        for i in items:
+            if ':' in i: 
+                proid, qty = i.split(':')
+                qty = int(qty)
+                try:
+                    product = productdata.objects.get(id=proid)
+                    cart_items.append({'product': product, 'qty': qty})
+                    grand_total += product.price * qty 
+                except productdata.DoesNotExist:
+                    pass 
+    response = page.render({'cart_items': cart_items, 'grand_total': grand_total}, req)
     return HttpResponse(response)
