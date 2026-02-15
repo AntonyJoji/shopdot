@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.template import loader
 from .models import productdata 
 
-def landing_page(req):
-    return render(req, 'landingpage.html')
+def landing_page(request):
+    return render(request, "landingpage.html", {"is_home": True})
+
 
 def store_home(req):
     page=loader.get_template('homepage.html')
@@ -64,3 +65,27 @@ def shopping_cart(req):
                     pass 
     response = page.render({'cart_items': cart_items, 'grand_total': grand_total}, req)
     return HttpResponse(response)
+
+
+from django.shortcuts import redirect
+
+def delete_cart_item(req, key):
+    cookie_data = req.COOKIES.get('pid')
+
+    if cookie_data:
+        items = cookie_data.split(',')
+        new_items = []
+
+        for i in items:
+            if ':' in i:
+                proid, qty = i.split(':')
+                if proid != key:
+                    new_items.append(i)
+
+        new_cookie_data = ','.join(new_items)
+
+        response = redirect('shopping_cart')
+        response.set_cookie('pid', new_cookie_data)
+        return response
+
+    return redirect('shopping_cart')

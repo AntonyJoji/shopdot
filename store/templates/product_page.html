@@ -1,23 +1,50 @@
 {% extends "landingpage.html" %}
 {% block content %}
+
 <div class="container my-5">
-    <h1 class="text-center mb-4">Product Page</h1>
-    <div class="row">
+
+    <h2 class="text-center fw-bold mb-5">🛍️ Products</h2>
+
+    <div class="row g-4">
+
         {% for p in product %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm p-3">
-                <div class="card-body">
-                    <h5 class="card-title">{{ p.name }}</h5>
-                    <p class="card-text"><strong>Price:</strong> ₹{{ p.price }}</p>
-                    <!-- <p class="card-text"><strong>Description:</strong> {{ p.desc }}</p>
-                    <p class="card-text"><strong>Features:</strong> {{ p.fea }}</p> -->
+
+        <div class="col-md-4 col-lg-3">
+            <div class="card h-100 shadow-sm border-0">
+
+                <!-- Product Image Placeholder -->
+                <div class="bg-light text-center py-4">
+                    <span class="text-muted">Image</span>
                 </div>
-                <div class="card-footer text-center bg-white border-0">
-                    <a href="/details/{{ p.id }}" class="btn btn-primary btn-sm">Buy Now</a>
+
+                <div class="card-body text-center">
+
+                    <h5 class="card-title fw-semibold">
+                        {{ p.name }}
+                    </h5>
+
+                    <p class="text-success fw-bold fs-5">
+                        ₹{{ p.price }}
+                    </p>
+
                 </div>
+
+                <div class="card-footer bg-white border-0 text-center pb-3">
+
+                    <a href="/details/{{ p.id }}"
+                       class="btn btn-primary w-100">
+                       View Details
+                    </a>
+
+                </div>
+
             </div>
         </div>
+
         {% endfor %}
+
     </div>
+
 </div>
+
 {% endblock %}
