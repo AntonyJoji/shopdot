@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from .models import productdata 
+from django.shortcuts import redirect
 
 def landing_page(request):
     return render(request, "landingpage.html", {"is_home": True})
@@ -67,7 +68,7 @@ def shopping_cart(req):
     return HttpResponse(response)
 
 
-from django.shortcuts import redirect
+
 
 def delete_cart_item(req, key):
     cookie_data = req.COOKIES.get('pid')
