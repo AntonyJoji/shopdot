@@ -8,43 +8,49 @@
     {% if cart_items %}
 
     <div class="card shadow-sm">
-        <div class="card-body">
+        <div class="card-body p-0">
 
             <div class="table-responsive">
-                <table class="table table-hover align-middle text-center">
+                <table class="table table-hover align-middle mb-0">
+
                     <thead class="table-dark">
                         <tr>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Action</th>
+                            <th class="ps-4">Product</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-center pe-4">Action</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {% for item in cart_items %}
                         <tr>
-                            <td class="fw-semibold">{{ item.product.name }}</td>
 
-                            <td>₹{{ item.product.price }}</td>
+                            <!-- Product -->
+                            <td class="fw-semibold ps-4">
+                                {{ item.product.name }}
+                            </td>
 
-                            <td>
+                            <!-- Price -->
+                            <td class="text-center">
+                                ₹{{ item.product.price }}
+                            </td>
+
+                            <!-- Quantity -->
+                            <td class="text-center">
                                 <span class="badge bg-primary">
                                     {{ item.qty }}
                                 </span>
                             </td>
 
-                            <td>
-                                ₹{{ item.product.price|floatformat:2|add:"0"|floatformat }}
-                            </td>
-
-                            <td>
+                            <!-- Action -->
+                            <td class="text-center pe-4">
                                 <a href="/deletecart/{{ item.product.id }}/"
                                    class="btn btn-danger btn-sm">
                                    Remove
                                 </a>
                             </td>
+
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -55,23 +61,27 @@
         </div>
     </div>
 
-    <!-- Grand Total Section -->
+    <!-- Order Summary -->
     <div class="d-flex justify-content-end mt-4">
-        <div class="card p-3 shadow-sm" style="min-width:250px;">
+
+        <div class="card shadow-sm p-4" style="width:280px;">
+
             <h5 class="mb-3">Order Summary</h5>
 
-            <h4 class="text-success">
+            <h4 class="text-success mb-3">
                 Total: ₹{{ grand_total }}
             </h4>
 
-            <a href="/" class="btn btn-outline-secondary w-100 mt-2">
+            <a href="/" class="btn btn-outline-secondary w-100 mb-2">
                 Continue Shopping
             </a>
 
-            <a href="#" class="btn btn-success w-100 mt-2">
+            <a href="#" class="btn btn-success w-100">
                 Checkout
             </a>
+
         </div>
+
     </div>
 
     {% else %}
